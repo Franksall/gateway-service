@@ -1,0 +1,24 @@
+# Este archivo (src/test/resources/application.yml)
+# se usa SÓLO cuando se corren las pruebas (./gradlew test)
+
+spring:
+  # 1. Desactiva el Config Server (el error que estamos viendo)
+  cloud:
+    config:
+      enabled: false
+    # 2. Desactiva el Discovery Client (Eureka)
+    discovery:
+      enabled: false
+
+  # 3. "Engaña" a la Seguridad (para que no falle al buscar el issuer-uri)
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://dummy-issuer-for-tests.com"
+      client:
+        provider:
+          # (Asegúrate de que 'our-auth-server' sea el nombre
+          # que usas en tu application.yml principal)
+          our-auth-server:
+            issuer-uri: "http://dummy-issuer-for-tests.com"
